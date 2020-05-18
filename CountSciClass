@@ -2,7 +2,7 @@ import docx
 import re
 import pandas as pd
 wordcount = r"\S+"
-this_file = '/Users/adamsmolenski/PycharmProjects/untitled6/SpatialLanguageHFA_MainText_SEP2018.docx'
+this_file = 'SpatialLanguageHFA_MainText_SEP2018.docx'
 class AnalyzeDoc:
 
 
