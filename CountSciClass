@@ -1,0 +1,126 @@
+import docx
+import re
+import pandas as pd
+wordcount = r"\S+"
+this_file = '/Users/adamsmolenski/PycharmProjects/untitled6/SpatialLanguageHFA_MainText_SEP2018.docx'
+class AnalyzeDoc:
+
+
+    def __init__(self, file):
+        self.file = file
+        self.opened = self.open_file()
+        self.full_text = self.textify()
+        self.abstract_count = self.get_abstract()[0]
+        self.abstract_text = self.get_abstract()[1]
+        self.keywords_count = self.get_keyword()[0]
+        self.keywords_text = self.get_keyword()[1]
+        self.total = self.all_words()
+
+    def open_file(self):
+        with open(self.file, 'rb') as file:
+            return docx.Document(file)
+
+    def textify(self):
+        entire_doc = []
+        for paragraph in self.opened.paragraphs:
+            entire_doc.append(paragraph.text)
+        self.pargraphs = entire_doc
+        return "\n".join(entire_doc)
+
+    def get_abstract(self):
+        abstract_total = 0
+        abstract_text = []
+        regex_abstract = re.compile(r'Abstract\n.*\n?')
+        abstract = re.findall(regex_abstract, self.full_text)
+        for abs in abstract:
+            abstract_total += len(re.findall(wordcount, abs))
+            abstract_text.append(abs)
+        return abstract_total, abstract_text
+
+    def get_keyword(self):
+        keywords_total = 0
+        keywords_text = []
+        regex_keyword = re.compile(r'Keyword\n?.*\n')
+        keywords = re.findall(regex_keyword, self.full_text)
+        for keyword in keywords:
+            keywords_total += len(re.findall(wordcount, keyword))
+            keywords_text.append(keyword)
+        return keywords_total, keywords_text
+
+    def get_figures(self):
+        figures_total = 0
+        figures_text = []
+        regex_figure = r'Figure \d\..*\n'
+        figures = re.findall(regex_figure, self.full_text)
+        for figure in figures:
+            figures_total += (len(figure))
+            figures_text.append(figure)
+        return figures_total, figures_text
+
+    def get_tables(self):
+        tables_total = 0
+        tables_text = []
+        regex_table = r'Table \d\.\s.*\n.*\n.*'
+        tabless = re.findall(regex_table, self.full_text)
+        for table in tabless:
+            tables_total += (len(table))
+            tables_text.append(table)
+        return tables_total, tables_text
+
+    def in_paper_citations(self):
+        citations_total = 0
+        citations_text = []
+        regex_citations = r'\([A-Z][a-z].*?\)'
+        citations = re.findall(regex_citations, self.text)
+        for citation in citations:
+            citations_total += (len(citation))
+            citations_text.append(citation)
+        return citations_total, citations_text
+
+    def end_citations(self):
+        bibilography = r'References:'
+        bibstart = re.findall(bibilography, self.full_text)
+
+    def all_words(self):
+        return len(re.findall(wordcount, self.full_text))
+
+    def get_tables(self):
+        tableread=[]
+        for table in self.full_text.tables:
+            current=""
+            prohibit_splitcells=[]
+            df = [['' for i in range(len(table.columns))] for j in range(len(table.rows))]
+            for i, row in enumerate(table.rows):
+                for j, cell in enumerate(row.cells):
+                     if cell.text not in prohibit_splitcells[-4:]:
+                        current += cell.text + " "
+                        prohibit_splitcells.append(cell.text)
+
+
+            tableread.append(current)
+
+        tablecount= r"[\(\)a-zA-z0-9.-/æ=]+"
+        editcount = r"[/\(\)a-zA-z0-9.-=]+"
+        table_total=0
+        for table in tableread:
+            table_total+=(len(re.findall(tablecount, table)))
+
+    # for table in read.tables:
+    #     df = [['' for i in range(len(table.columns))] for j in range(len(table.rows))]
+    #     for i, row in enumerate(table.rows):
+    #         for j, cell in enumerate(row.cells):
+    #             if cell.text:
+    #                 df[i][j] = cell.text
+    #     tables.append(pd.DataFrame(df))
+    #     table.columns.name = df.iloc[0]
+    #     table.columns.name=df.iloc[0]
+
+    # with open('testing.txt', 'w') as expat:
+    #     for item in completed:
+    #         serb= len(re.findall(wordcount, item))
+    #
+    #
+    #         print(item, file = expat)
+    #         print(serb, file=expat)
+    #         total+=serb
+    #         print(total, file = expat)
