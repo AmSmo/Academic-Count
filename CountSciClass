@@ -3,6 +3,16 @@ import re
 import pandas as pd
 wordcount = r"\S+"
 this_file = 'SpatialLanguageHFA_MainText_SEP2018.docx'
+end_word = False
+
+
+def stop_word():
+    answer = input("Would you like to stop at a certain section? Yes or No: ")
+    if answer.lower() == "yes" or answer.lower() == "y":
+        end_word = True
+        return input("What word would you like to stop at? (Note: Case and punctuation sensitive) ")
+    else:
+        end_word = False
 class AnalyzeDoc:
 
 
@@ -15,6 +25,23 @@ class AnalyzeDoc:
         self.keywords_count = self.get_keyword()[0]
         self.keywords_text = self.get_keyword()[1]
         self.total = self.all_words()
+        self.table_count = self.get_tables()[0]
+        self.table_text = self.get_tables()[1]
+        self.table_intro_count = self.get_table_intros()[0]
+        self.table_intro_text = self.get_table_intros()[1]
+        self.citations_count = self.get_in_paper_citations()[0]
+        self.citations_text = self.get_in_paper_citations()[1]
+        self.false_negatives = self.get_in_paper_citations()[2]
+        self.bibliography_count = self.get_end_citations()[0]
+        self.bibiliography_text = self.get_end_citations()[1]
+        self.figures_count = self.get_figures()[0]
+        self.figures_text = self.get_figures()[1]
+        self.notes_count = self.get_notes()[0]
+        self.notes_text = self.get_notes()[1]
+        self.appendices_count = self.get_appendix()[0]
+        self.appendices_text = self.get_appendix()[1]
+
+
 
     def open_file(self):
         with open(self.file, 'rb') as file:
@@ -22,9 +49,15 @@ class AnalyzeDoc:
 
     def textify(self):
         entire_doc = []
+
         for paragraph in self.opened.paragraphs:
-            entire_doc.append(paragraph.text)
-        self.pargraphs = entire_doc
+
+            check_end = re.compile(rf'{last_word}')
+            if re.match(check_end, paragraph.text):
+                break
+            else:
+                entire_doc.append(paragraph.text)
+        self.paragraphs = entire_doc
         return "\n".join(entire_doc)
 
     def get_abstract(self):
@@ -53,57 +86,99 @@ class AnalyzeDoc:
         regex_figure = r'Figure \d\..*\n'
         figures = re.findall(regex_figure, self.full_text)
         for figure in figures:
-            figures_total += (len(figure))
+            figures_total += len(re.findall(wordcount,figure))
             figures_text.append(figure)
         return figures_total, figures_text
 
-    def get_tables(self):
-        tables_total = 0
-        tables_text = []
+    def get_table_intros(self):
+        tables_intro_total = 0
+        tables_intro_text = []
         regex_table = r'Table \d\.\s.*\n.*\n.*'
-        tabless = re.findall(regex_table, self.full_text)
-        for table in tabless:
-            tables_total += (len(table))
-            tables_text.append(table)
-        return tables_total, tables_text
+        tables = re.findall(regex_table, self.full_text)
+        for table in tables:
+            tables_intro_total += len(re.findall(wordcount,table))
+            tables_intro_text.append(table)
+        return tables_intro_total, tables_intro_text
 
-    def in_paper_citations(self):
+    def get_in_paper_citations(self):
         citations_total = 0
         citations_text = []
-        regex_citations = r'\([A-Z][a-z].*?\)'
-        citations = re.findall(regex_citations, self.text)
-        for citation in citations:
-            citations_total += (len(citation))
-            citations_text.append(citation)
-        return citations_total, citations_text
+        false_negatives = []
 
-    def end_citations(self):
-        bibilography = r'References:'
-        bibstart = re.findall(bibilography, self.full_text)
+        regex_citations = r'\(.*?\)'
+        citations = re.findall(regex_citations, self.full_text)
+        for citation in citations:
+            if re.search(r'[12][0-9]\d{2}', citation):
+                citations_total += len(re.findall(wordcount, citation))
+                citations_text.append(citation)
+            else:
+                false_negatives.append(citation)
+        return citations_total, citations_text, false_negatives
+
+    def get_end_citations(self):
+        bib_count = 0
+        full_bib = ""
+        bibilography = r'(References:|Bibliography:)'
+        bibstart = re.search(bibilography, self.full_text)
+        nextsection= r'\n\n'
+        try:
+            post_bib = re.search(nextsection,self.full_text[bibstart.start()+10:] )
+            full_bib+=(self.full_text[bibstart.start():bibstart.start()+post_bib.start()])
+            bib_count += len(re.findall(wordcount, full_bib))
+            return bib_count, full_bib
+        except:
+            return bib_count, full_bib
+
 
     def all_words(self):
         return len(re.findall(wordcount, self.full_text))
 
     def get_tables(self):
         tableread=[]
-        for table in self.full_text.tables:
+        for table in self.opened.tables:
             current=""
             prohibit_splitcells=[]
-            df = [['' for i in range(len(table.columns))] for j in range(len(table.rows))]
             for i, row in enumerate(table.rows):
                 for j, cell in enumerate(row.cells):
                      if cell.text not in prohibit_splitcells[-4:]:
                         current += cell.text + " "
                         prohibit_splitcells.append(cell.text)
-
-
             tableread.append(current)
-
         tablecount= r"[\(\)a-zA-z0-9.-/æ=]+"
-        editcount = r"[/\(\)a-zA-z0-9.-=]+"
         table_total=0
         for table in tableread:
             table_total+=(len(re.findall(tablecount, table)))
+        return table_total, tableread
+
+    def get_notes(self):
+        notes_total = 0
+        notes_text = []
+        regex_notes = re.compile(r'Notes:')
+        notes_start = re.search(regex_notes, self.full_text)
+        nextsection = r'\n\n'
+        try:
+            post_notes = re.search(nextsection, self.full_text[notes_start.start() + 10:])
+            notes_text.append(self.full_text[notes_start.start():notes_start.start() + post_notes.end()])
+            notes_total += len(re.findall(wordcount, notes_text[0]))
+            return notes_total, notes_text
+        except:
+            return notes_total, notes_text
+
+    def get_appendix(self):
+        appendix_total = 0
+        appendix_text = []
+        regex_appendix = re.compile(r'(Appendix|Appendices)\n')
+        appendix_start = re.search(regex_appendix, self.full_text)
+        nextsection = r'\n\n'
+        try:
+            post_appendix = re.search(nextsection, self.full_text[appendix_start.end()+10:])
+            print(post_appendix.end())
+            appendix_text.append(self.full_text[appendix_start.start():appendix_start.start() + post_appendix.end()])
+            appendix_total += len(re.findall(wordcount, appendix_text[0]))
+            return appendix_total, appendix_text
+        except:
+            return appendix_total, appendix_text
+
 
     # for table in read.tables:
     #     df = [['' for i in range(len(table.columns))] for j in range(len(table.rows))]
@@ -115,12 +190,50 @@ class AnalyzeDoc:
     #     table.columns.name = df.iloc[0]
     #     table.columns.name=df.iloc[0]
 
-    # with open('testing.txt', 'w') as expat:
-    #     for item in completed:
-    #         serb= len(re.findall(wordcount, item))
-    #
-    #
-    #         print(item, file = expat)
-    #         print(serb, file=expat)
-    #         total+=serb
-    #         print(total, file = expat)
+
+last_word = stop_word()
+test = AnalyzeDoc(this_file)
+
+def add_bold(paragraph, text):
+    added= paragraph.add_run(text)
+    added.bold=True
+
+# report = docx.Document()
+# paragraph_1 = report.add_paragraph(f"Abstract Count: {test.abstract_count}")
+# add_bold(paragraph_1, "BOBOB")
+# report.add_paragraph(f"Keyword Count: {test.keywords_count}")
+
+#     print("Figures Count: ", test.figures_count, file=report)
+#     print("Table Count:", test.table_count,file=report)
+#     print("Table setup count", test.table_intro_count, file = report)
+#     print("Total count", test.total, file = report)
+#     print("Bibliography Count:", test.bibliography_count, file=report)
+#     print("In text citation Count: ", test.citations_count, file= report)
+#     print("Notes Count: ", test.notes_count, file = report)
+#     print("Appendix Count: ", test.appendices_count, file= report)
+#     print("Borderline cases that were counted", file= report)
+#     for index, items in enumerate(test.false_negatives, start= 1):
+#         print(f"{index}. {items}", file= report)
+#     print("\n\nNot Counted citations", file = report)
+#     for index, items in enumerate(test.citations_text, start =1):
+#         print(f"{index}. {items}",file = report)
+
+#report.save(f'CountSci{this_file}')
+# with open(f'{this_file}CountSci.doc', 'w') as report:
+#     docx.DocumentPart(a)
+#     print("Abstract Count: ", test.abstract_count, file= report)
+#     print("Keyword Count: ", test.keywords_count, file=report)
+#     print("Figures Count: ", test.figures_count, file=report)
+#     print("Table Count:", test.table_count,file=report)
+#     print("Table setup count", test.table_intro_count, file = report)
+#     print("Total count", test.total, file = report)
+#     print("Bibliography Count:", test.bibliography_count, file=report)
+#     print("In text citation Count: ", test.citations_count, file= report)
+#     print("Notes Count: ", test.notes_count, file = report)
+#     print("Appendix Count: ", test.appendices_count, file= report)
+#     print("Borderline cases that were counted", file= report)
+#     for index, items in enumerate(test.false_negatives, start= 1):
+#         print(f"{index}. {items}", file= report)
+#     print("\n\nNot Counted citations", file = report)
+#     for index, items in enumerate(test.citations_text, start =1):
+#         print(f"{index}. {items}",file = report)
