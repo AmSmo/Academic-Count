@@ -1,10 +1,12 @@
 import docx
 import re
 import pandas as pd
+import pprint
+from docx.enum.text import WD_COLOR_INDEX
 wordcount = r"\S+"
 this_file = 'SpatialLanguageHFA_MainText_SEP2018.docx'
 end_word = False
-
+highlighted_copy = docx.Document()
 
 def stop_word():
     answer = input("Would you like to stop at a certain section? Yes or No: ")
@@ -32,6 +34,7 @@ class AnalyzeDoc:
         self.citations_count = self.get_in_paper_citations()[0]
         self.citations_text = self.get_in_paper_citations()[1]
         self.false_negatives = self.get_in_paper_citations()[2]
+        self.citation_excise_text = self.get_in_paper_citations()[3]
         self.bibliography_count = self.get_end_citations()[0]
         self.bibiliography_text = self.get_end_citations()[1]
         self.figures_count = self.get_figures()[0]
@@ -40,6 +43,9 @@ class AnalyzeDoc:
         self.notes_text = self.get_notes()[1]
         self.appendices_count = self.get_appendix()[0]
         self.appendices_text = self.get_appendix()[1]
+        self.edited=self.full_text
+        self.highlighted = self.highlights()
+
 
 
 
@@ -104,16 +110,28 @@ class AnalyzeDoc:
         citations_total = 0
         citations_text = []
         false_negatives = []
-
+        excised_word = []
         regex_citations = r'\(.*?\)'
         citations = re.findall(regex_citations, self.full_text)
         for citation in citations:
             if re.search(r'[12][0-9]\d{2}', citation):
+                multicaps = re.search(r'[A-Za-z .]*?[A-Z]{2,}[A-Za-z]*\s?\w+[:,;]?', citation)
+                doublecap = re.search(r'[A-Z]{2}', citation)
+                sentence = re.search(r'[\( ][a-z ,]+', citation)
+                if multicaps:
+                    excised_word.append(f"{multicaps.group()} FROM: {citation}")
+                    citations_total -= len(re.findall(wordcount, multicaps.group()))
+                elif doublecap:
+                    excised_word.append(f"{doublecap.group()} FROM: {citation}")
+                    citations_total -= len(re.findall(wordcount, doublecap.group()))
+                elif sentence and sentence.group() != " et al" and sentence.group() != " de ":
+                    excised_word.append(f"{sentence.group()} FROM: {citation}")
+                    citations_total -= len(re.findall(wordcount, sentence.group()))
                 citations_total += len(re.findall(wordcount, citation))
                 citations_text.append(citation)
             else:
                 false_negatives.append(citation)
-        return citations_total, citations_text, false_negatives
+        return citations_total, citations_text, false_negatives, excised_word
 
     def get_end_citations(self):
         bib_count = 0
@@ -172,12 +190,28 @@ class AnalyzeDoc:
         nextsection = r'\n\n'
         try:
             post_appendix = re.search(nextsection, self.full_text[appendix_start.end()+10:])
-            print(post_appendix.end())
             appendix_text.append(self.full_text[appendix_start.start():appendix_start.start() + post_appendix.end()])
             appendix_total += len(re.findall(wordcount, appendix_text[0]))
             return appendix_total, appendix_text
         except:
             return appendix_total, appendix_text
+
+    def highlights(self):
+
+         for text in self.abstract_text:
+             if text in self.edited:
+                 self.edited = self.edited.replace(text, f"<mark>{text}</mark>")
+                 self.edited = self.edited.replace("\n", "\n\n")
+
+
+         highlight = highlighted_copy.add_paragraph(self.edited)
+
+
+
+
+
+
+
 
 
     # for table in read.tables:
@@ -194,46 +228,8 @@ class AnalyzeDoc:
 last_word = stop_word()
 test = AnalyzeDoc(this_file)
 
-def add_bold(paragraph, text):
-    added= paragraph.add_run(text)
-    added.bold=True
 
-# report = docx.Document()
-# paragraph_1 = report.add_paragraph(f"Abstract Count: {test.abstract_count}")
-# add_bold(paragraph_1, "BOBOB")
-# report.add_paragraph(f"Keyword Count: {test.keywords_count}")
 
-#     print("Figures Count: ", test.figures_count, file=report)
-#     print("Table Count:", test.table_count,file=report)
-#     print("Table setup count", test.table_intro_count, file = report)
-#     print("Total count", test.total, file = report)
-#     print("Bibliography Count:", test.bibliography_count, file=report)
-#     print("In text citation Count: ", test.citations_count, file= report)
-#     print("Notes Count: ", test.notes_count, file = report)
-#     print("Appendix Count: ", test.appendices_count, file= report)
-#     print("Borderline cases that were counted", file= report)
-#     for index, items in enumerate(test.false_negatives, start= 1):
-#         print(f"{index}. {items}", file= report)
-#     print("\n\nNot Counted citations", file = report)
-#     for index, items in enumerate(test.citations_text, start =1):
-#         print(f"{index}. {items}",file = report)
 
-#report.save(f'CountSci{this_file}')
-# with open(f'{this_file}CountSci.doc', 'w') as report:
-#     docx.DocumentPart(a)
-#     print("Abstract Count: ", test.abstract_count, file= report)
-#     print("Keyword Count: ", test.keywords_count, file=report)
-#     print("Figures Count: ", test.figures_count, file=report)
-#     print("Table Count:", test.table_count,file=report)
-#     print("Table setup count", test.table_intro_count, file = report)
-#     print("Total count", test.total, file = report)
-#     print("Bibliography Count:", test.bibliography_count, file=report)
-#     print("In text citation Count: ", test.citations_count, file= report)
-#     print("Notes Count: ", test.notes_count, file = report)
-#     print("Appendix Count: ", test.appendices_count, file= report)
-#     print("Borderline cases that were counted", file= report)
-#     for index, items in enumerate(test.false_negatives, start= 1):
-#         print(f"{index}. {items}", file= report)
-#     print("\n\nNot Counted citations", file = report)
-#     for index, items in enumerate(test.citations_text, start =1):
-#         print(f"{index}. {items}",file = report)
+
+highlighted_copy.save(f'Highlighted{this_file}')
