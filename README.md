@@ -9,3 +9,5 @@ Hopefully this would be a go to tool, as well as adaptable if people find they n
 
 
 NOTE: 5-18-2020, this is very early in the process and just working on a specific article right now, but if you have articles where you would like to test I would be thrilled to work on them.  Eventually will also have a GUI interface instead of just commandline style.  Everything is always a work in progress so please stay tuned.
+
+Note: 5-21-2020, After talking with some friends to make it a more testable solution, I am going to try to build a django web app.  Since as of right now I have no experience with Django I will be working on this project but much slower, again if you have an article you wish to test please reach out and I will gladly take the time to work on it.
