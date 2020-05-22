@@ -1,0 +1,43 @@
+<center><h1>Count Sci, your home to examine your article</h1></center>
+
+{% for message in get_flashed_messages()%}
+<h2>{{ message }} </h2>
+{% endfor %}
+<br>
+<form action="your-analysis" method="post" enctype="multipart/form-data">
+    <label for="file">Your file:</label>
+        <input type='file' name= "file" value="" required="">
+    <br>
+    <label for="stop_word">Word you'd like to stop analyzing at (CASE SENSITIVE):</label>
+        <input type='text' name= "stop_word" value="">
+    <br>
+    <input type="checkbox" name="title" checked>
+        <label for "checkbox">Include Titles</label>
+    <br>
+    <input type="checkbox" name="abstract" checked>
+        <label for "abstract">Include Abstract</label>
+    <br>
+    <input type="checkbox" name="keywords" checked>
+        <label for "keywords">Include Keywords</label>
+    <br>
+    <input type="checkbox" name="notes" checked>
+        <label for "notes">Include notes</label>
+    <br>
+    <input type="checkbox" name="citations" checked>
+        <label for "citations">Include in-text citations</label>
+    <br>
+    <input type="checkbox" name="bibliography" checked>
+        <label for "checkbox">Include Bibliography</label>
+    <br>
+    <input type="submit" value="Process">
+
+</form>
+
+{% if nomdefiles %}
+<h2> File names you have used</h2>
+<ul>
+    {% for item in nomdefiles %}
+    <li>{{item}}</li>
+    {% endfor %}
+</ul>
+{% endif %}

@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="5fc46941-1b0f-4eac-8737-bf1f99568e3e" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/CountSciWeb.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CountSciClass" beforeDir="false" afterPath="$PROJECT_DIR$/CountSciClass.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1c5jH9OJIWYCYhgYObKIl9QiW4C" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="Python" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="PyConsoleOptionsProvider">
+    <option name="myPythonConsoleState">
+      <console-settings>
+        <option name="useSoftWraps" value="true" />
+      </console-settings>
+    </option>
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.CountSciWeb">
+    <configuration name="CountSciClass" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="CountSci2" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/CountSciClass.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="CountSciWeb" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="CountSci2" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/CountSciWeb.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="scratch_7" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="CountSci2" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="/usr/local/bin/python3.8" />
+      <option name="WORKING_DIRECTORY" value="$APPLICATION_CONFIG_DIR$/scratches" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$APPLICATION_CONFIG_DIR$/scratches/scratch_7.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Python.CountSciClass" />
+      <item itemvalue="Python.scratch_7" />
+      <item itemvalue="Python.CountSciWeb" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.CountSciWeb" />
+        <item itemvalue="Python.CountSciClass" />
+        <item itemvalue="Python.scratch_7" />
+        <item itemvalue="Python.scratch_7" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="5fc46941-1b0f-4eac-8737-bf1f99568e3e" name="Default Changelist" comment="" />
+      <created>1589825257901</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1589825257901</updated>
+    </task>
+    <task id="LOCAL-00001" summary="A little bit more functionality.  Beginning of a reports phase, will make that more useful.">
+      <created>1589898545575</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1589898545575</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Before working on other test articles">
+      <created>1589982484409</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1589982484409</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Before working on other test articles">
+      <created>1590079741974</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1590079741974</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
+    <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="A little bit more functionality.  Beginning of a reports phase, will make that more useful." />
+    <MESSAGE value="Before working on other test articles" />
+    <option name="LAST_COMMIT_MESSAGE" value="Before working on other test articles" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="323" y="59" key="#CountSciClass" timestamp="1590174577462">
+      <screen x="0" y="23" width="1440" height="842" />
+    </state>
+    <state x="323" y="59" key="#CountSciClass/0.23.1440.842@0.23.1440.842" timestamp="1590174577462" />
+    <state x="364" y="236" key="#Inspections" timestamp="1590092797663">
+      <screen x="0" y="23" width="1440" height="842" />
+    </state>
+    <state x="364" y="236" key="#Inspections/0.23.1440.842@0.23.1440.842" timestamp="1590092797663" />
+    <state x="226" y="106" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1589829490225">
+      <screen x="0" y="23" width="1440" height="842" />
+    </state>
+    <state x="226" y="106" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1440.842@0.23.1440.842" timestamp="1589829490225" />
+    <state x="0" y="483" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1590090047916">
+      <screen x="0" y="23" width="1440" height="842" />
+    </state>
+    <state x="0" y="483" key="#com.intellij.fileTypes.FileTypeChooser/0.23.1440.842@0.23.1440.842" timestamp="1590090047916" />
+    <state x="383" y="306" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1" timestamp="1590174469860">
+      <screen x="0" y="23" width="1440" height="842" />
+    </state>
+    <state x="383" y="306" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.23.1440.842@0.23.1440.842" timestamp="1590174469860" />
+    <state x="313" y="23" width="846" height="842" key="CommitChangelistDialog2" timestamp="1590079741801">
+      <screen x="0" y="23" width="1440" height="842" />
+    </state>
+    <state x="313" y="23" width="846" height="842" key="CommitChangelistDialog2/0.23.1440.842@0.23.1440.842" timestamp="1590079741801" />
+    <state width="1253" height="219" key="GridCell.Tab.0.bottom" timestamp="1590183012636">
+      <screen x="0" y="23" width="1440" height="842" />
+    </state>
+    <state width="1253" height="219" key="GridCell.Tab.0.bottom/0.23.1440.842@0.23.1440.842" timestamp="1590183012636" />
+    <state width="1253" height="219" key="GridCell.Tab.0.center" timestamp="1590183012635">
+      <screen x="0" y="23" width="1440" height="842" />
+    </state>
+    <state width="1253" height="219" key="GridCell.Tab.0.center/0.23.1440.842@0.23.1440.842" timestamp="1590183012635" />
+    <state width="1253" height="219" key="GridCell.Tab.0.left" timestamp="1590183012634">
+      <screen x="0" y="23" width="1440" height="842" />
+    </state>
+    <state width="1253" height="219" key="GridCell.Tab.0.left/0.23.1440.842@0.23.1440.842" timestamp="1590183012634" />
+    <state width="1253" height="219" key="GridCell.Tab.0.right" timestamp="1590183012636">
+      <screen x="0" y="23" width="1440" height="842" />
+    </state>
+    <state width="1253" height="219" key="GridCell.Tab.0.right/0.23.1440.842@0.23.1440.842" timestamp="1590183012636" />
+    <state width="1253" height="272" key="GridCell.Tab.1.bottom" timestamp="1589990406152">
+      <screen x="0" y="23" width="1440" height="842" />
+    </state>
+    <state width="1253" height="272" key="GridCell.Tab.1.bottom/0.23.1440.842@0.23.1440.842" timestamp="1589990406152" />
+    <state width="1253" height="272" key="GridCell.Tab.1.center" timestamp="1589990406152">
+      <screen x="0" y="23" width="1440" height="842" />
+    </state>
+    <state width="1253" height="272" key="GridCell.Tab.1.center/0.23.1440.842@0.23.1440.842" timestamp="1589990406152" />
+    <state width="1253" height="272" key="GridCell.Tab.1.left" timestamp="1589990406151">
+      <screen x="0" y="23" width="1440" height="842" />
+    </state>
+    <state width="1253" height="272" key="GridCell.Tab.1.left/0.23.1440.842@0.23.1440.842" timestamp="1589990406151" />
+    <state width="1253" height="272" key="GridCell.Tab.1.right" timestamp="1589990406152">
+      <screen x="0" y="23" width="1440" height="842" />
+    </state>
+    <state width="1253" height="272" key="GridCell.Tab.1.right/0.23.1440.842@0.23.1440.842" timestamp="1589990406152" />
+    <state x="178" y="83" key="SettingsEditor" timestamp="1590084784944">
+      <screen x="0" y="23" width="1440" height="842" />
+    </state>
+    <state x="178" y="83" key="SettingsEditor/0.23.1440.842@0.23.1440.842" timestamp="1590084784944" />
+    <state x="257" y="189" width="670" height="676" key="search.everywhere.popup" timestamp="1590174535698">
+      <screen x="0" y="23" width="1440" height="842" />
+    </state>
+    <state x="257" y="189" width="670" height="676" key="search.everywhere.popup/0.23.1440.842@0.23.1440.842" timestamp="1590174535698" />
+  </component>
+</project>

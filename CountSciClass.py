@@ -4,23 +4,24 @@ import re
 wordcount = r"\S+"
 
 
-this_file = 'article2.docx'
-#this_file = 'article.docx'
+#this_file = 'article2.docx'
+this_file = 'article.docx'
 
-end_word = False
+#end_word = False
 highlighted_copy = docx.Document()
 
-def stop_word():
-    answer = input("Would you like to stop at a certain section? Yes or No: ")
-    if answer.lower() == "yes" or answer.lower() == "y":
-        end_word = True
-        return input("What word would you like to stop at? (Note: Case and punctuation sensitive) ")
-    else:
-        end_word = False
+#def stop_word():
+#    answer = input("Would you like to stop at a certain section? Yes or No: ")
+#    if answer.lower() == "yes" or answer.lower() == "y":
+#        end_word = True
+#        return input("What word would you like to stop at? (Note: Case and punctuation sensitive) ")
+#    else:
+#        end_word = False
 class AnalyzeDoc:
 
 
-    def __init__(self, file):
+    def __init__(self, file, last_word):
+        self.last_word=last_word
         self.file = file
         self.opened = self.open_file()
         self.full_text = self.textify()
@@ -49,7 +50,7 @@ class AnalyzeDoc:
         self.title_text = self.no_title_page()[1]
 
         self.edited=self.full_text
-        self.highlighted = self.highlights()
+        #self.highlighted = self.highlights()
 
 
 
@@ -62,10 +63,12 @@ class AnalyzeDoc:
         entire_doc = []
 
         for paragraph in self.opened.paragraphs:
-
-            check_end = re.compile(rf'{last_word}')
-            if re.match(check_end, paragraph.text):
-                break
+            if self.last_word:
+                check_end = re.compile(rf'{self.last_word}')
+                if re.match(check_end, paragraph.text):
+                    break
+                else:
+                    entire_doc.append(paragraph.text)
             else:
                 entire_doc.append(paragraph.text)
         self.paragraphs = entire_doc
@@ -96,7 +99,6 @@ class AnalyzeDoc:
         try:
 
             title_text.append(self.full_text[:abstract.start()])
-            print(self.full_text[:abstract.start()])
             for item in title_text:
                 title_total+=len(re.findall(wordcount,item))
             return title_total, title_text
@@ -244,15 +246,15 @@ class AnalyzeDoc:
         except:
             return appendix_total, appendix_text
 
-    def highlights(self):
-
-         for text in self.abstract_text:
-             if text in self.edited:
-                 self.edited = self.edited.replace(text, f"<mark>{text}</mark>")
-                 self.edited = self.edited.replace("\n", "\n\n")
-
-
-         highlight = highlighted_copy.add_paragraph(self.edited)
+    # def highlights(self):
+    #
+    #      for text in self.abstract_text:
+    #          if text in self.edited:
+    #              self.edited = self.edited.replace(text, f"<mark>{text}</mark>")
+    #              self.edited = self.edited.replace("\n", "\n\n")
+    #
+    #
+    #      highlight = highlighted_copy.add_paragraph(self.edited)
 
 
 
@@ -273,8 +275,8 @@ class AnalyzeDoc:
     #     table.columns.name=df.iloc[0]
 
 
-last_word = None #stop_word()
-test = AnalyzeDoc(this_file)
+
+
 
 
 def add_bold(paragraph, text):
@@ -296,30 +298,30 @@ def explanations(paragraph_name, text):
     add_bold(p_paragraph, f"{text}")
 
 
-report = docx.Document()
-sections("Title Page", test.title_count)
-sections("Abstract", test.abstract_count)
-sections("Figures", test.figures_count)
-sections("Table Caption", test.table_intro_count)
-sections("In Table Text", test.table_count)
-sections("In Text Citations", test.citations_count)
-sections("Bibliography", test.bibliography_count)
-sections("Appendix", test.appendices_count)
-sections("Keywords", test.keywords_count)
-sections("Notes", test.notes_count)
+# report = docx.Document()
+# sections("Title Page", test.title_count)
+# sections("Abstract", test.abstract_count)
+# sections("Figures", test.figures_count)
+# sections("Table Caption", test.table_intro_count)
+# sections("In Table Text", test.table_count)
+# sections("In Text Citations", test.citations_count)
+# sections("Bibliography", test.bibliography_count)
+# sections("Appendix", test.appendices_count)
+# sections("Keywords", test.keywords_count)
+# sections("Notes", test.notes_count)
 
-report.add_paragraph("Excised words from citations\n")
-for num, excised_item in enumerate(test.citation_excise_text, start = 1):
-
-    (explanations(str(num), excised_item))
-subtract_this = test.figures_count + test.table_intro_count + test.table_count+ test.title_count+ \
-    test.bibliography_count + test.appendices_count + test.keywords_count + test.notes_count
-
-sections("Total", test.total + test.table_count)
-sections("After excluding all chosen sections: ", test.total + test.table_count - subtract_this)
-
-report.save(f'CountSci{this_file}')
-
-
-
-print(test.title_text)
+# report.add_paragraph("Excised words from citations\n")
+# for num, excised_item in enumerate(test.citation_excise_text, start = 1):
+#
+#     (explanations(str(num), excised_item))
+# subtract_this = test.figures_count + test.table_intro_count + test.table_count+ test.title_count+ \
+#     test.bibliography_count + test.appendices_count + test.keywords_count + test.notes_count
+#
+# sections("Total", test.total + test.table_count)
+# sections("After excluding all chosen sections: ", test.total + test.table_count - subtract_this)
+#
+# report.save(f'CountSci{this_file}')
+#
+#
+#
+#
