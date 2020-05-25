@@ -1,1 +1,1 @@
-web: gunicorn -b :$PORT src.app:app --log-file=-
+web: gunicorn -b :$PORT wsgi:app --log-file=-
