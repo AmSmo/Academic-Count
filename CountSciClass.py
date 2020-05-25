@@ -310,7 +310,7 @@ def explanations(paragraph_name, text):
 
     add_bold(p_paragraph, f"{text}")
 
-test= AnalyzeDoc(this_file, None)
+#test= AnalyzeDoc(this_file, None)
 #print(test.bibend)
 
 # report = docx.Document()
