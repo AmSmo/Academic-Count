@@ -1,4 +1,6 @@
 python-docx
-flask
-werkzeug.utils
+Flask
+Werkzeug
 gunicorn
+Click
+itsdangerous
