@@ -7,8 +7,8 @@ verify_ssl = true
 
 [packages]
 Flask = "*"
-
 python-docx = "*"
+gunicorn = "*"
 
 [requires]
 python_version = "3.8"
