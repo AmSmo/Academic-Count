@@ -4,8 +4,8 @@ import re
 wordcount = r"\S+"
 
 
-#this_file = 'article2.docx'
-this_file = 'article.docx'
+this_file = 'article2.docx'
+#this_file = 'article.docx'
 
 #end_word = False
 highlighted_copy = docx.Document()
@@ -25,6 +25,8 @@ class AnalyzeDoc:
         self.file = file
         self.opened = self.open_file()
         self.full_text = self.textify()
+        self.bibstart = self.get_end_citations()[2]
+        self.bibend = self.get_end_citations()[3]
         self.abstract_count = self.get_abstract()[0]
         self.abstract_text = self.get_abstract()[1]
         self.keywords_count = self.get_keyword()[0]
@@ -39,7 +41,7 @@ class AnalyzeDoc:
         self.false_negatives = self.get_in_paper_citations()[2]
         self.citation_excise_text = self.get_in_paper_citations()[3]
         self.bibliography_count = self.get_end_citations()[0]
-        self.bibiliography_text = self.get_end_citations()[1]
+        self.bibliography_text = self.get_end_citations()[1]
         self.figures_count = self.get_figures()[0]
         self.figures_text = self.get_figures()[1]
         self.notes_count = self.get_notes()[0]
@@ -147,6 +149,25 @@ class AnalyzeDoc:
             tables_intro_total += len(re.findall(wordcount,table))
             tables_intro_text.append(table)
         return tables_intro_total, tables_intro_text
+    def get_end_citations(self):
+        bib_count = 0
+        full_bib = ""
+        biblography = r'(References:?|Bibliography:?)'
+        bibstart = re.search(biblography, self.full_text)
+        nextsection= r'\n\n|\Z'
+        pre_bib = bibstart.start()
+
+        try:
+            post_bib = re.search(nextsection, self.full_text[bibstart.start()+10:])
+
+            full_bib+=(self.full_text[bibstart.start():bibstart.start()+post_bib.start()+10])
+            bib_count += len(re.findall(wordcount, full_bib))
+            bibend = bibstart.start()+post_bib.start()+10
+
+            return bib_count, full_bib, pre_bib, bibend
+        except:
+            bibend = len(self.full_text)
+            return bib_count, full_bib, pre_bib, bibend
 
     def get_in_paper_citations(self):
         citations_total = 0
@@ -154,7 +175,8 @@ class AnalyzeDoc:
         false_negatives = []
         excised_word = []
         regex_citations = r'\(.*?\)'
-        citations = re.findall(regex_citations, self.full_text)
+        citations_not_bibliography=(self.full_text[:self.bibstart]+(self.full_text[self.bibend:]))
+        citations = re.findall(regex_citations, citations_not_bibliography)
         for citation in citations:
             if re.search(r'(?<!-)[12][0-9]\d{2}(?! ms|/| milliseconds)', citation):
                 multicaps = re.search(r'[A-Za-z .]*?[A-Z]{2,}[A-Za-z]*\s?\w+[:,;]?', citation)
@@ -163,39 +185,32 @@ class AnalyzeDoc:
                 examples = re.search(r'\((i.e.|e.g.).*[,;]', citation)
                 if multicaps:
                     excised_word.append(f"{multicaps.group()} FROM: {citation}")
+
                     citations_total -= len(re.findall(wordcount, multicaps.group()))
+                    citation = citation.replace(f"{multicaps.group()}", "")
                 elif examples:
                     excised_word.append(f"{examples.group()} FROM: {citation}")
+
                     citations_total -= len(re.findall(wordcount, examples.group()))
+                    citation = citation.replace(examples.group(), "")
                 elif doublecap:
                     excised_word.append(f"{doublecap.group()} FROM: {citation}")
+
                     citations_total -= len(re.findall(wordcount, doublecap.group()))
+                    citation = citation.replace(doublecap.group(), "")
                 elif sentence and sentence.group() != " et al" and sentence.group() != " de "\
                         and sentence.group() != " van de ":
                     excised_word.append(f"{sentence.group()} FROM: {citation}")
-                    citations_total -= len(re.findall(wordcount, sentence.group()))
 
+                    citations_total -= len(re.findall(wordcount, sentence.group()))
+                    citation = citation.replace(sentence.group(), "")
                 citations_total += len(re.findall(wordcount, citation))
                 citations_text.append(citation)
             else:
                 false_negatives.append(citation)
         return citations_total, citations_text, false_negatives, excised_word
 
-    def get_end_citations(self):
-        bib_count = 0
-        full_bib = ""
-        bibilography = r'(References:?|Bibliography:?)'
-        bibstart = re.search(bibilography, self.full_text)
-        nextsection= r'\n\n|\Z'
 
-        try:
-            post_bib = re.search(nextsection, self.full_text[bibstart.start()+10:])
-
-            full_bib+=(self.full_text[bibstart.start():bibstart.start()+post_bib.start()])
-            bib_count += len(re.findall(wordcount, full_bib))
-            return bib_count, full_bib
-        except:
-            return bib_count, full_bib
 
 
     def all_words(self):
@@ -226,7 +241,7 @@ class AnalyzeDoc:
         nextsection = r'\n\n'
         try:
             post_notes = re.search(nextsection, self.full_text[notes_start.start() + 10:])
-            notes_text.append(self.full_text[notes_start.start():notes_start.start() + post_notes.end()])
+            notes_text.append(self.full_text[notes_start.start():notes_start.start() + post_notes.end()+10])
             notes_total += len(re.findall(wordcount, notes_text[0]))
             return notes_total, notes_text
         except:
@@ -246,15 +261,13 @@ class AnalyzeDoc:
         except:
             return appendix_total, appendix_text
 
-    # def highlights(self):
-    #
-    #      for text in self.abstract_text:
-    #          if text in self.edited:
-    #              self.edited = self.edited.replace(text, f"<mark>{text}</mark>")
-    #              self.edited = self.edited.replace("\n", "\n\n")
-    #
-    #
-    #      highlight = highlighted_copy.add_paragraph(self.edited)
+    def highlights(self):
+         for text in self.abstract_text:
+            if text in self.edited:
+                  self.edited = self.edited.replace(text, f"<mark>{text}</mark>")
+                  self.edited = self.edited.replace("\n", "<br><br>")
+         return self.edited
+
 
 
 
@@ -297,6 +310,8 @@ def explanations(paragraph_name, text):
 
     add_bold(p_paragraph, f"{text}")
 
+test= AnalyzeDoc(this_file, None)
+#print(test.bibend)
 
 # report = docx.Document()
 # sections("Title Page", test.title_count)

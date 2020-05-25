@@ -1,9 +1,6 @@
+
 <center><h1>Count Sci, your home to examine your article</h1></center>
 
-{% for message in get_flashed_messages()%}
-<h2>{{ message }} </h2>
-{% endfor %}
-<br>
 <form action="your-analysis" method="post" enctype="multipart/form-data">
     <label for="file">Your file:</label>
         <input type='file' name= "file" value="" required="">
@@ -11,33 +8,52 @@
     <label for="stop_word">Word you'd like to stop analyzing at (CASE SENSITIVE):</label>
         <input type='text' name= "stop_word" value="">
     <br>
-    <input type="checkbox" name="title" checked>
-        <label for "checkbox">Include Titles</label>
-    <br>
-    <input type="checkbox" name="abstract" checked>
-        <label for "abstract">Include Abstract</label>
-    <br>
+   <p> <input type="checkbox" name="title" checked>
+        <label for "checkbox">Exclude Titles</label><br>
+    <input type="checkbox" name="title_text" >
+       <label for "checkbox">Print what was found as the Title Page</label></p>
+
+    <p><input type="checkbox" name="abstract" checked>
+        <label for "abstract">Exclude Abstract</label><br>
+    <input type="checkbox" name="abstract_text" >
+       <label for "checkbox">Print what was found as the Abstract text</label></p>
+
     <input type="checkbox" name="keywords" checked>
-        <label for "keywords">Include Keywords</label>
-    <br>
-    <input type="checkbox" name="notes" checked>
-        <label for "notes">Include notes</label>
-    <br>
-    <input type="checkbox" name="citations" checked>
-        <label for "citations">Include in-text citations</label>
-    <br>
-    <input type="checkbox" name="bibliography" checked>
-        <label for "checkbox">Include Bibliography</label>
-    <br>
-    <input type="submit" value="Process">
+        <label for "keywords">Exclude Keywords</label><br>
+    <input type="checkbox" name="keywords_text" >
+       <label for "checkbox">Print what was found as the Keywords</label></p>
+
+    <p><input type="checkbox" name="table_caption" checked>
+        <label for "keywords">Exclude Table Captions</label><br>
+    <input type="checkbox" name="tcaption_text" >
+       <label for "checkbox">Print what was found as the Table Captions</label></p>
+
+    <p><input type="checkbox" name="table_text" checked>
+        <label for "table_text">Exclude In Table Text</label><br>
+    <input type="checkbox" name="intable_text" >
+       <label for "checkbox">Print what was found as the in Table Text</label></p>
+
+    <p><input type="checkbox" name="figure_caption" checked>
+    <label for "figure_caption">Exclude Figure Captions</label><br>
+    <input type="checkbox" name="figure_text" >
+       <label for "checkbox">Print what was found as the Figure Captions</label></p>
+
+    <p><input type="checkbox" name="notes" checked>
+        <label for "notes">Exclude Notes</label><br>
+    <input type="checkbox" name="notes_text" >
+        <label for "checkbox">Print what was found as the Notes</label></p>
+
+    <p><input type="checkbox" name="citations" checked>
+        <label for "citations">Exclude in-text citations</label><br>
+        <input type="checkbox" name="citations_text" >
+        <label for "checkbox">Print what was found as the Citations</label></p>
+
+    <p></p><input type="checkbox" name="bibliography" checked>
+        <label for "checkbox">Exclude Bibliography</label><br>
+    <input type="checkbox" name="bibliography_text" >
+        <label for "checkbox">Print what was found as the Bibliography</label></p>
+
+    <input type="submit" value="Analyze Document">
 
 </form>
 
-{% if nomdefiles %}
-<h2> File names you have used</h2>
-<ul>
-    {% for item in nomdefiles %}
-    <li>{{item}}</li>
-    {% endfor %}
-</ul>
-{% endif %}

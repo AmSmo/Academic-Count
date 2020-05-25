@@ -2,8 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5fc46941-1b0f-4eac-8737-bf1f99568e3e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/CountSciWeb.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CountSciClass" beforeDir="false" afterPath="$PROJECT_DIR$/CountSciClass.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CountSciClass.py" beforeDir="false" afterPath="$PROJECT_DIR$/CountSciClass.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CountSciWeb.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/home.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,14 +46,15 @@
     </option>
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/templates" />
+      <recent name="$PROJECT_DIR$" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
     </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$" />
-    </key>
   </component>
-  <component name="RunManager" selected="Python.CountSciWeb">
+  <component name="RunManager" selected="Python.CountSciClass">
     <configuration name="CountSciClass" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="CountSci2" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -72,7 +76,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="CountSciWeb" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="app" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="CountSci2" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -84,7 +88,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/CountSciWeb.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/app.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -117,12 +121,12 @@
     <list>
       <item itemvalue="Python.CountSciClass" />
       <item itemvalue="Python.scratch_7" />
-      <item itemvalue="Python.CountSciWeb" />
+      <item itemvalue="Python.app" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.CountSciWeb" />
         <item itemvalue="Python.CountSciClass" />
+        <item itemvalue="Python.app" />
         <item itemvalue="Python.scratch_7" />
         <item itemvalue="Python.scratch_7" />
       </list>
@@ -177,6 +181,10 @@
       <screen x="0" y="23" width="1440" height="842" />
     </state>
     <state x="364" y="236" key="#Inspections/0.23.1440.842@0.23.1440.842" timestamp="1590092797663" />
+    <state x="390" y="174" key="#Servers" timestamp="1590360014091">
+      <screen x="0" y="23" width="1440" height="842" />
+    </state>
+    <state x="390" y="174" key="#Servers/0.23.1440.842@0.23.1440.842" timestamp="1590360014091" />
     <state x="226" y="106" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1589829490225">
       <screen x="0" y="23" width="1440" height="842" />
     </state>
@@ -193,22 +201,22 @@
       <screen x="0" y="23" width="1440" height="842" />
     </state>
     <state x="313" y="23" width="846" height="842" key="CommitChangelistDialog2/0.23.1440.842@0.23.1440.842" timestamp="1590079741801" />
-    <state width="1253" height="219" key="GridCell.Tab.0.bottom" timestamp="1590183012636">
+    <state width="1253" height="219" key="GridCell.Tab.0.bottom" timestamp="1590419212443">
       <screen x="0" y="23" width="1440" height="842" />
     </state>
-    <state width="1253" height="219" key="GridCell.Tab.0.bottom/0.23.1440.842@0.23.1440.842" timestamp="1590183012636" />
-    <state width="1253" height="219" key="GridCell.Tab.0.center" timestamp="1590183012635">
+    <state width="1253" height="219" key="GridCell.Tab.0.bottom/0.23.1440.842@0.23.1440.842" timestamp="1590419212443" />
+    <state width="1253" height="219" key="GridCell.Tab.0.center" timestamp="1590419212442">
       <screen x="0" y="23" width="1440" height="842" />
     </state>
-    <state width="1253" height="219" key="GridCell.Tab.0.center/0.23.1440.842@0.23.1440.842" timestamp="1590183012635" />
-    <state width="1253" height="219" key="GridCell.Tab.0.left" timestamp="1590183012634">
+    <state width="1253" height="219" key="GridCell.Tab.0.center/0.23.1440.842@0.23.1440.842" timestamp="1590419212442" />
+    <state width="1253" height="219" key="GridCell.Tab.0.left" timestamp="1590419212442">
       <screen x="0" y="23" width="1440" height="842" />
     </state>
-    <state width="1253" height="219" key="GridCell.Tab.0.left/0.23.1440.842@0.23.1440.842" timestamp="1590183012634" />
-    <state width="1253" height="219" key="GridCell.Tab.0.right" timestamp="1590183012636">
+    <state width="1253" height="219" key="GridCell.Tab.0.left/0.23.1440.842@0.23.1440.842" timestamp="1590419212442" />
+    <state width="1253" height="219" key="GridCell.Tab.0.right" timestamp="1590419212443">
       <screen x="0" y="23" width="1440" height="842" />
     </state>
-    <state width="1253" height="219" key="GridCell.Tab.0.right/0.23.1440.842@0.23.1440.842" timestamp="1590183012636" />
+    <state width="1253" height="219" key="GridCell.Tab.0.right/0.23.1440.842@0.23.1440.842" timestamp="1590419212443" />
     <state width="1253" height="272" key="GridCell.Tab.1.bottom" timestamp="1589990406152">
       <screen x="0" y="23" width="1440" height="842" />
     </state>
