@@ -6,10 +6,8 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
-docx = "*"
-re = "*"
 Flask = "*"
-python3-docx = "*"
+
 python-docx = "*"
 
 [requires]
