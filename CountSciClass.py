@@ -158,6 +158,7 @@ class AnalyzeDoc:
         pre_bib = bibstart.start()
 
         try:
+            pre_bib = bibstart.start()
             post_bib = re.search(nextsection, self.full_text[bibstart.start()+10:])
 
             full_bib+=(self.full_text[bibstart.start():bibstart.start()+post_bib.start()+10])
@@ -166,6 +167,7 @@ class AnalyzeDoc:
 
             return bib_count, full_bib, pre_bib, bibend
         except:
+            prebib = len(self.full_text)
             bibend = len(self.full_text)
             return bib_count, full_bib, pre_bib, bibend
 
