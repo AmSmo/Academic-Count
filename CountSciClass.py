@@ -155,7 +155,7 @@ class AnalyzeDoc:
         biblography = r'(References:?|Bibliography:?)'
         bibstart = re.search(biblography, self.full_text)
         nextsection= r'\n\n|\Z'
-        pre_bib = bibstart.start()
+
 
         try:
             pre_bib = bibstart.start()
