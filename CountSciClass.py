@@ -167,7 +167,7 @@ class AnalyzeDoc:
 
             return bib_count, full_bib, pre_bib, bibend
         except:
-            prebib = len(self.full_text)
+            pre_bib = len(self.full_text)
             bibend = len(self.full_text)
             return bib_count, full_bib, pre_bib, bibend
 
