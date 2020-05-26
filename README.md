@@ -1,5 +1,5 @@
-# CountSci
-Word count explorer for scientific journal publications.  Will have options to exclude, tables, figures and in text citations.
+# Academic-Count
+Word count explorer for journal publications.  Will have options to exclude, tables, figures and in text citations.
 
 Some friends who constantly submit journal articles always have to figure out specific word counts when submitting to certain places.  Ideally this will be a tool to easily figure out where your word counts are, excluding in text citations if need be, all without having to cut and paste your article.  Will eventually have reports functionality to tell you what was included and why.  
 
