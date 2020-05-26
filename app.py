@@ -158,7 +158,7 @@ def your_analysis():
         user_file = request.files['file']
 
         local = secure_filename(user_file.filename)
-        user_file.save('/Users/adamsmolenski/documents/github/countsci2/static/user_files/' + local)
+        user_file.save('./static/user_files/' + local)
         if request.form['stop_word'] == "":
             endnote = None
         else:
