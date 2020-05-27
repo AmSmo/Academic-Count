@@ -1,12 +1,11 @@
 import docx
 import re
-
+import pprint
 wordcount = r"\S+"
 
-
-this_file = 'article2.docx'
-#this_file = 'article.docx'
-
+this_file = 'article3.docx'
+#this_file = 'article3.docx'
+#this_file= 'student.docx'
 #end_word = False
 highlighted_copy = docx.Document()
 
@@ -21,6 +20,7 @@ class AnalyzeDoc:
 
 
     def __init__(self, file, last_word):
+        self.no_doubles = ""
         self.last_word=last_word
         self.file = file
         self.opened = self.open_file()
@@ -36,10 +36,7 @@ class AnalyzeDoc:
         self.table_text = self.get_tables()[1]
         self.table_intro_count = self.get_table_intros()[0]
         self.table_intro_text = self.get_table_intros()[1]
-        self.citations_count = self.get_in_paper_citations()[0]
-        self.citations_text = self.get_in_paper_citations()[1]
-        self.false_negatives = self.get_in_paper_citations()[2]
-        self.citation_excise_text = self.get_in_paper_citations()[3]
+
         self.bibliography_count = self.get_end_citations()[0]
         self.bibliography_text = self.get_end_citations()[1]
         self.figures_count = self.get_figures()[0]
@@ -50,7 +47,10 @@ class AnalyzeDoc:
         self.appendices_text = self.get_appendix()[1]
         self.title_count = self.no_title_page()[0]
         self.title_text = self.no_title_page()[1]
-
+        self.citations_count = self.get_in_paper_citations()[0]
+        self.citations_text = self.get_in_paper_citations()[1]
+        self.false_negatives = self.get_in_paper_citations()[2]
+        self.citation_excise_text = self.get_in_paper_citations()[3]
         self.edited=self.full_text
         #self.highlighted = self.highlights()
 
@@ -81,7 +81,7 @@ class AnalyzeDoc:
         abstract_text = []
         regex_abstract = re.compile(r'(:?Abstract|ABSTRACT)[ :]? ?\n.*.*')
         abstract = re.search(regex_abstract, self.full_text)
-        nextsection = r'(\n\n|\n\S+\n|\n\w+:)'
+        nextsection = r'(\n\n|\n\S+\n|\n\w+:|\n\t\w+:)'
 
         try:
             post_abs = re.search(nextsection, self.full_text[abstract.start() +12:])
@@ -91,6 +91,7 @@ class AnalyzeDoc:
                 abstract_total += len(re.findall(wordcount, item))
             return abstract_total, abstract_text
         except:
+            abstract_text.append("<I>Nothing was found as your Abstract</I>")
             return abstract_total, abstract_text
 
     def no_title_page(self):
@@ -98,6 +99,9 @@ class AnalyzeDoc:
         title_total = 0
         regex_abstract = re.compile(r'(:?Abstract|ABSTRACT)[ :]? ?\n.*.*')
         abstract = re.search(regex_abstract, self.full_text)
+        if abstract == None:
+            regex_title = re.compile(r'\w+\n\n\n')
+            abstract = re.search(regex_title, self.full_text)
         try:
 
             title_text.append(self.full_text[:abstract.start()])
@@ -105,6 +109,7 @@ class AnalyzeDoc:
                 title_total+=len(re.findall(wordcount,item))
             return title_total, title_text
         except:
+            title_text.append("<I>Nothing was found as your Title Page</I>")
             return title_total, title_text
 
     def get_keyword(self):
@@ -122,6 +127,7 @@ class AnalyzeDoc:
                 keywords_total += len(re.findall(wordcount, item))
             return keywords_total, keywords_text
         except:
+            keywords_text.append("<I>Nothing was found as Keywords</I>")
             return keywords_total, keywords_text
 
         # for keyword in keywords:
@@ -143,16 +149,17 @@ class AnalyzeDoc:
     def get_table_intros(self):
         tables_intro_total = 0
         tables_intro_text = []
-        regex_table = r'Table \d\.\s.*\n.*\n.*'
+        regex_table = r'\nTable \d\.?.*\n.*'
         tables = re.findall(regex_table, self.full_text)
         for table in tables:
             tables_intro_total += len(re.findall(wordcount,table))
             tables_intro_text.append(table)
         return tables_intro_total, tables_intro_text
+
     def get_end_citations(self):
         bib_count = 0
         full_bib = ""
-        biblography = r'(References:?|Bibliography:?)'
+        biblography = r'\n(References:?|Bibliography:?)'
         bibstart = re.search(biblography, self.full_text)
         nextsection= r'\n\n|\Z'
 
@@ -187,9 +194,8 @@ class AnalyzeDoc:
                 examples = re.search(r'\((i.e.|e.g.).*[,;]', citation)
                 if multicaps:
                     excised_word.append(f"{multicaps.group()} FROM: {citation}")
-
                     citations_total -= len(re.findall(wordcount, multicaps.group()))
-                    citation = citation.replace(f"{multicaps.group()}", "")
+                    citation = citation.replace(multicaps.group(), "")
                 elif examples:
                     excised_word.append(f"{examples.group()} FROM: {citation}")
 
@@ -238,15 +244,27 @@ class AnalyzeDoc:
     def get_notes(self):
         notes_total = 0
         notes_text = []
-        regex_notes = re.compile(r'Notes:')
+        regex_notes = re.compile(r'\nNotes?:?')
         notes_start = re.search(regex_notes, self.full_text)
-        nextsection = r'\n\n'
+        nextsection = r'\n\n|\Z'
+
         try:
-            post_notes = re.search(nextsection, self.full_text[notes_start.start() + 10:])
-            notes_text.append(self.full_text[notes_start.start():notes_start.start() + post_notes.end()+10])
-            notes_total += len(re.findall(wordcount, notes_text[0]))
+            post_notes = re.search(nextsection, self.full_text[notes_start.start():])
+            notes_text.append(self.full_text[notes_start.start():notes_start.start() + post_notes.end()])
+            next_search = self.full_text[notes_start.start() + post_notes.end():]
+            next_note = re.compile(r"\nNote")
+            while re.findall(next_note, next_search):
+                next_start = (re.search(next_note, next_search))
+                post_notes = re.search(nextsection, next_search[next_start.end():])
+
+                notes_text.append(next_search[next_start.start():next_start.start()+post_notes.end()+5])
+                next_search = next_search[next_start.start() + post_notes.end():]
+
+            for note in notes_text:
+                notes_total += len(re.findall(wordcount, note))
             return notes_total, notes_text
         except:
+
             return notes_total, notes_text
 
     def get_appendix(self):
@@ -254,13 +272,26 @@ class AnalyzeDoc:
         appendix_text = []
         regex_appendix = re.compile(r'(Appendix|Appendices)\n')
         appendix_start = re.search(regex_appendix, self.full_text)
-        nextsection = r'\n\n'
+        nextsection = r'\n\n|\Z'
         try:
-            post_appendix = re.search(nextsection, self.full_text[appendix_start.end()+10:])
-            appendix_text.append(self.full_text[appendix_start.start():appendix_start.start() + post_appendix.end()])
-            appendix_total += len(re.findall(wordcount, appendix_text[0]))
+            post_appendix = re.search(nextsection, self.full_text[appendix_start.end()+(len(appendix_start.group())):])
+            print
+            appendix_text.append(self.full_text[appendix_start.start():appendix_start.start() + post_appendix.end()+(len(appendix_start.group()))])
+            next_search = self.full_text[appendix_start.start() + post_appendix.end()+(len(appendix_start.group())):]
+            next_appendix = re.compile(r"\nAppen")
+            while re.findall(next_appendix, next_search):
+                next_start=(re.search(next_appendix,next_search))
+
+                post_appendix=re.search(nextsection,next_search[next_start.end():])
+                appendix_text.append(next_search[next_start.start():post_appendix.end()+(len(appendix_start.group()))])
+                next_search= next_search[next_start.start()+post_appendix.end():]
+            for app in appendix_text:
+                appendix_total += len(re.findall(wordcount, app))
+
             return appendix_total, appendix_text
         except:
+            for app in appendix_text:
+                appendix_total += len(re.findall(wordcount, app))
             return appendix_total, appendix_text
 
     def highlights(self):
@@ -269,14 +300,6 @@ class AnalyzeDoc:
                   self.edited = self.edited.replace(text, f"<mark>{text}</mark>")
                   self.edited = self.edited.replace("\n", "<br><br>")
          return self.edited
-
-
-
-
-
-
-
-
 
 
     # for table in read.tables:
@@ -290,55 +313,6 @@ class AnalyzeDoc:
     #     table.columns.name=df.iloc[0]
 
 
-
-
-
-
-def add_bold(paragraph, text):
-    added= paragraph.add_run(text)
-    added.bold=True
-
-def sections(paragraph_name, count):
-    paragraph_prep =paragraph_name.replace(" ", "_")
-    p_paragraph = f"p_{paragraph_prep}"
-    p_paragraph = report.add_paragraph(f"{paragraph_name} Count: ")
-    add_bold(p_paragraph, f"{count}")
-
-def explanations(paragraph_name, text):
-
-    p_paragraph = f"p_example_{paragraph_name}"
-    p_paragraph = report.add_paragraph(f"\t{num} - ")
-
-
-    add_bold(p_paragraph, f"{text}")
-
-#test= AnalyzeDoc(this_file, None)
-#print(test.bibend)
-
-# report = docx.Document()
-# sections("Title Page", test.title_count)
-# sections("Abstract", test.abstract_count)
-# sections("Figures", test.figures_count)
-# sections("Table Caption", test.table_intro_count)
-# sections("In Table Text", test.table_count)
-# sections("In Text Citations", test.citations_count)
-# sections("Bibliography", test.bibliography_count)
-# sections("Appendix", test.appendices_count)
-# sections("Keywords", test.keywords_count)
-# sections("Notes", test.notes_count)
-
-# report.add_paragraph("Excised words from citations\n")
-# for num, excised_item in enumerate(test.citation_excise_text, start = 1):
+# test= AnalyzeDoc(this_file, None)
 #
-#     (explanations(str(num), excised_item))
-# subtract_this = test.figures_count + test.table_intro_count + test.table_count+ test.title_count+ \
-#     test.bibliography_count + test.appendices_count + test.keywords_count + test.notes_count
-#
-# sections("Total", test.total + test.table_count)
-# sections("After excluding all chosen sections: ", test.total + test.table_count - subtract_this)
-#
-# report.save(f'CountSci{this_file}')
-#
-#
-#
-#
+# print(test.citation_excise_text)

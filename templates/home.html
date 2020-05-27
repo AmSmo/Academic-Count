@@ -1,5 +1,5 @@
 
-<center><h1>Count Sci, your home to examine your article</h1></center>
+<center><h1>Academic Count, your home to examine your article</h1></center>
 
 <form action="your-analysis" method="post" enctype="multipart/form-data">
     <label for="file">Your file:</label>
@@ -46,12 +46,25 @@
     <p><input type="checkbox" name="citations" checked>
         <label for "citations">Exclude in-text citations</label><br>
         <input type="checkbox" name="citations_text" >
-        <label for "checkbox">Print what was found as the Citations</label></p>
+        <label for "checkbox">Print what was found as the Citations</label><br>
+        <input type="checkbox" name="excised_text" >
+        <label for "checkbox">Print words that were counted inside the Citations</label><br>
+        <input type="checkbox" name="near_miss" >
+        <label for "checkbox">Print what was found in parenthesis but not seen as a citation.</label>
+    </p>
 
-    <p></p><input type="checkbox" name="bibliography" checked>
+    <p><input type="checkbox" name="bibliography" checked>
         <label for "checkbox">Exclude Bibliography</label><br>
     <input type="checkbox" name="bibliography_text" >
         <label for "checkbox">Print what was found as the Bibliography</label></p>
+
+    <p><input type="checkbox" name="appendices" checked>
+        <label for "checkbox">Exclude Appendices</label><br>
+    <input type="checkbox" name="appendices_text" >
+        <label for "checkbox">Print what was found as the Appendix</label></p>
+
+    <p><input type="checkbox" name="full_report" >
+        <label for "checkbox">Print full text with what was omitted being highlighted (Note: Tables will not appear)</label></p>
 
     <input type="submit" value="Analyze Document">
 

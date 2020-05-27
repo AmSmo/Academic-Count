@@ -19,6 +19,7 @@ def explanations(paragraph_name, text):
 
 
 report = docx.Document()
+sections("Title Page", test.title_count)
 sections("Figures", test.figures_count)
 sections("Abstract", test.abstract_count)
 sections("Table Caption", test.table_intro_count)
