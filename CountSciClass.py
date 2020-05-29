@@ -1,6 +1,9 @@
 import docx
 import re
 import pprint
+import requests
+from io import BytesIO
+
 wordcount = r"\S+"
 
 this_file = 'article3.docx'

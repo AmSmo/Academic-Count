@@ -1,11 +1,14 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, abort, session, jsonify
 import json
 import os.path
-from CountSciClass import AnalyzeDoc as CSA
 from werkzeug.utils import secure_filename
 import CountSciClass as CSA
 import pandas as pd
 import re
+import os
+from google.cloud import storage
+
+CLOUD_STORAGE_BUCKET = os.environ['CLOUD_STORAGE_BUCKET']
 wordcount = r"\S+"
 
 app = Flask(__name__)
@@ -250,13 +253,13 @@ def your_analysis():
         user_file = request.files['file']
 
         local = secure_filename(user_file.filename)
-        user_file.save('./static/user_files/' + local)
+        user_file.save('/tmp/' + local)
         if request.form['stop_word'] == "":
             endnote = None
         else:
             endnote = request.form['stop_word']
 
-        analyze_file = CSA.AnalyzeDoc('./static/user_files/'+local, endnote)
+        analyze_file = CSA.AnalyzeDoc('/tmp/'+local, endnote)
 
         excluded, included, subtract, highlighted, report = cswebreport(analyze_file)
         analyzed_text = cswebtext(analyze_file)

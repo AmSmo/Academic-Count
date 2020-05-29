@@ -4,3 +4,6 @@ Werkzeug
 gunicorn
 Click
 itsdangerous
+requests
+google-cloud-storage
+pandas

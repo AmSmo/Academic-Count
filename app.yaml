@@ -1,5 +1,7 @@
 runtime: python37
-
+entrypoint: gunicorn -b :$PORT app:app
+env_variables:
+    CLOUD_STORAGE_BUCKET: academiccount
 handlers:
 
 - url: /static
