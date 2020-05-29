@@ -10,6 +10,7 @@ Flask = "*"
 python-docx = "*"
 gunicorn = "*"
 pandas = "*"
+google-cloud-storage = "*"
 
 [requires]
 python_version = "3.8"

@@ -6,9 +6,7 @@ import CountSciClass as CSA
 import pandas as pd
 import re
 import os
-from google.cloud import storage
 
-CLOUD_STORAGE_BUCKET = os.environ['CLOUD_STORAGE_BUCKET']
 wordcount = r"\S+"
 
 app = Flask(__name__)
