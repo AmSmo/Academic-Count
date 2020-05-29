@@ -187,33 +187,51 @@ class AnalyzeDoc:
         citations_not_bibliography=(self.full_text[:self.bibstart]+(self.full_text[self.bibend:]))
         citations = re.findall(regex_citations, citations_not_bibliography)
         for citation in citations:
-            if re.search(r'(?<!-)[12][0-9]\d{2}(?! ms|/| milliseconds)', citation):
-                multicaps = re.search(r'[A-Za-z .]*?[A-Z]{2,}[A-Za-z]*\s?\w+[:,;]?', citation)
-                doublecap = re.search(r'[A-Z]{2}', citation)
-                sentence = re.search(r'[\( ][a-z ,]+', citation)
-                examples = re.search(r'\((i.e.|e.g.).*[,;]', citation)
-                if multicaps:
-                    excised_word.append(f"{multicaps.group()} FROM: {citation}")
-                    citations_total -= len(re.findall(wordcount, multicaps.group()))
-                    citation = citation.replace(multicaps.group(), "")
-                elif examples:
-                    excised_word.append(f"{examples.group()} FROM: {citation}")
+            if re.search(r'(?<![/-])[12][0-9]\d{2}(?![/-])', citation):
+                if re.search(r'[A-Z][a-z]', citation):
+                    multicaps = re.search(r'\(?[A-Za-z .;]*?[A-Z]{2,}[A-Za-z]*[\s;,-]?\w+[:,;]?', citation)
+                    doublecap = re.search(r'\(?[A-Z]{2};?', citation)
+                    sentence = re.search(r'[\( ][a-z ,]+', citation)
+                    examples = re.search(r'\((i.e.|e.g.).*[,;]', citation)
+                    if multicaps:
+                        strip = re.sub(r'[\(,:;\)]', "", multicaps.group())
+                        excised_word.append(f"{strip} FROM: {citation}")
+                        citations_total -= len(re.findall(wordcount, strip))
+                        citation = citation.replace(multicaps.group(), "")
+                        print(excised_word[-1])
+                    elif examples:
+                        strip = re.sub(r'[\(,:;\)]', "", examples.group())
+                        excised_word.append(f"{strip} FROM: {citation}")
 
-                    citations_total -= len(re.findall(wordcount, examples.group()))
-                    citation = citation.replace(examples.group(), "")
-                elif doublecap:
-                    excised_word.append(f"{doublecap.group()} FROM: {citation}")
+                        citations_total -= len(re.findall(wordcount, strip))
+                        citation = citation.replace(examples.group(), "")
+                        print(excised_word[-1])
+                    elif doublecap:
+                        strip = re.sub(r'[\(,:;\)]', "", doublecap.group())
+                        excised_word.append(f"{strip} FROM: {citation}")
+                        print(excised_word[-1])
+                        citations_total -= len(re.findall(wordcount, strip))
+                        citation = citation.replace(doublecap.group(), "")
+                    elif sentence and sentence.group() != " et al" and sentence.group() != " de " \
+                            and sentence.group() != " van de ":
+                        strip = re.sub(r'[\(,:;\)]', "", sentence.group())
+                        excised_word.append(f"{strip} FROM: {citation}")
+                        print(excised_word[-1])
+                        citations_total -= len(re.findall(wordcount, strip))
+                        citation = citation.replace(sentence.group(), "")
 
-                    citations_total -= len(re.findall(wordcount, doublecap.group()))
-                    citation = citation.replace(doublecap.group(), "")
-                elif sentence and sentence.group() != " et al" and sentence.group() != " de "\
-                        and sentence.group() != " van de ":
-                    excised_word.append(f"{sentence.group()} FROM: {citation}")
+                    print("Before adding citation:", citations_total)
+                    print(citation)
 
-                    citations_total -= len(re.findall(wordcount, sentence.group()))
-                    citation = citation.replace(sentence.group(), "")
-                citations_total += len(re.findall(wordcount, citation))
-                citations_text.append(citation)
+                    citations_total += len(re.findall(wordcount, citation))
+                    print("After adding citation:", citations_total)
+                    citations_text.append(citation)
+                elif re.search(r'\(\d{4}(?:, \d{4})*\)', citation):
+                    citations_total += len(re.findall(wordcount, citation))
+
+                    citations_text.append(citation)
+                else:
+                    false_negatives.append(citation)
             else:
                 false_negatives.append(citation)
         return citations_total, citations_text, false_negatives, excised_word

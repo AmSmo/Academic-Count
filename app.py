@@ -22,8 +22,10 @@ def cswebreport(analyze_file):
         subtract += analyze_file.title_count
         for text in analyze_file.title_text:
             if text in highlighted:
-                analyze_file.no_doubles+=text + " "
+                analyze_file.no_doubles += text + " "
                 highlighted = highlighted.replace(text, f"<span style='background-color:powderblue;'>{text}</span>")
+                if re.findall(r'\w', text):
+                    highlighted = highlighted.replace(text, f"<span style='background-color:powderblue;'>{text}</span>")
     else:
         included += "Title<br>"
 
@@ -109,27 +111,34 @@ def cswebreport(analyze_file):
         subtract += analyze_file.bibliography_count
         text = analyze_file.bibliography_text
         analyze_file.no_doubles += text + " "
-        highlighted = highlighted.replace(text, f"<mark>{text}</mark>")
+        if text == " " or text == "":
+            pass
+        else:
+            highlighted = highlighted.replace(text, f"<span id=\"bibliography\" style='background-color:lightsteelblue;'>{text}</span>")
     else:
         included += "Bibliography<br>"
-    highlighted = highlighted.replace("\n", "<br><br>")
+
 
     if request.form.get("excised_text"):
         report += f"<h2>Following were words counted but found in a citation</h2><br>"
+        count = 0
         for text in analyze_file.citation_excise_text:
-            split=text.split("FROM: ")
+            split = text.split("FROM: ")
             if re.search(rf"{split[1]}", analyze_file.no_doubles):
+                analyze_file.citations_count -= len(re.findall(wordcount, split[1]))
                 pass
-            else:
-                report += text + "<br>"
-        report += "<br>"
+            elif count == 0:
+                report += "<ol>"
+                count += 1
+            report += f"<li>{text}</li> With a word count of <strong>{len(re.findall(wordcount, split[0]))}</strong> included in your total text <br>"
+        report += "</ol><br>"
 
     if request.form.get("citations"):
         for text in analyze_file.citations_text:
             if text in analyze_file.no_doubles:
                 analyze_file.citations_count-= len(re.findall(wordcount, text))
                 continue
-            if text in highlighted and text not in analyze_file.bibliography_text:
+            if text in highlighted and text not in analyze_file.bibliography_text and text not in analyze_file.no_doubles:
                 highlighted = highlighted.replace(text, f"<mark>{text}</mark>")
         for text in analyze_file.citation_excise_text:
             split = text.split("FROM: ")
@@ -142,6 +151,7 @@ def cswebreport(analyze_file):
         subtract += analyze_file.citations_count
     else:
         included += "Citations<br>"
+    highlighted = highlighted.replace("\n", "<br><br>\n")
     return excluded, included, subtract, highlighted, report
 
 def cswebtext(analyze_file):
