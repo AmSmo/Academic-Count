@@ -251,6 +251,7 @@ def your_analysis():
         user_file = request.files['file']
 
         local = secure_filename(user_file.filename)
+
         user_file.save('/tmp/' + local)
         if request.form['stop_word'] == "":
             endnote = None
@@ -265,7 +266,13 @@ def your_analysis():
             highlighted = "<h2><b><center>Full Text Highlighted</center></h2></b>" + highlighted
         else:
             highlighted = ""
-        return f"""<Center><h1>These are your results<h2></center><br>
+        return f"""<!DOCTYPE html>
+            <html>
+                <head>
+                  <title>Academic Count Analysis</title>
+                </head>
+            <body>
+            <Center><h1>These are your results<h2></center><br>
         <h3>{excluded}<br>
             {included}<br>
             Total Count before excluding selections = {analyze_file.total}<br>
@@ -276,7 +283,7 @@ def your_analysis():
             {report}<br>
             {trouble}
             
-            </h3>"""
+            </h3></body></html>"""
          
     else:
         return redirect(url_for('home'))

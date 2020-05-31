@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5fc46941-1b0f-4eac-8737-bf1f99568e3e" name="Default Changelist" comment="" />
+    <list default="true" id="5fc46941-1b0f-4eac-8737-bf1f99568e3e" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/templates/css/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CountSciClass.py" beforeDir="false" afterPath="$PROJECT_DIR$/CountSciClass.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/home.html" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -40,12 +46,13 @@
     </option>
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$" />
-      <recent name="$PROJECT_DIR$/templates" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/templates/css" />
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/templates" />
     </key>
   </component>
   <component name="RunManager" selected="Python.CountSciClass">
@@ -114,8 +121,8 @@
     </configuration>
     <list>
       <item itemvalue="Python.CountSciClass" />
-      <item itemvalue="Python.scratch_7" />
       <item itemvalue="Python.app" />
+      <item itemvalue="Python.scratch_7" />
     </list>
     <recent_temporary>
       <list>
@@ -193,7 +200,14 @@
       <option name="project" value="LOCAL" />
       <updated>1590790533714</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="this works woooo">
+      <created>1590791701853</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1590791701853</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -228,26 +242,26 @@
       <screen x="0" y="23" width="1440" height="842" />
     </state>
     <state x="383" y="306" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.23.1440.842@0.23.1440.842" timestamp="1590174469860" />
-    <state x="313" y="23" width="846" height="842" key="CommitChangelistDialog2" timestamp="1590790533570">
+    <state x="313" y="23" width="846" height="842" key="CommitChangelistDialog2" timestamp="1590791701716">
       <screen x="0" y="23" width="1440" height="842" />
     </state>
-    <state x="313" y="23" width="846" height="842" key="CommitChangelistDialog2/0.23.1440.842@0.23.1440.842" timestamp="1590790533570" />
-    <state width="1253" height="229" key="GridCell.Tab.0.bottom" timestamp="1590790032154">
+    <state x="313" y="23" width="846" height="842" key="CommitChangelistDialog2/0.23.1440.842@0.23.1440.842" timestamp="1590791701716" />
+    <state width="1253" height="229" key="GridCell.Tab.0.bottom" timestamp="1590947918298">
       <screen x="0" y="23" width="1440" height="842" />
     </state>
-    <state width="1253" height="229" key="GridCell.Tab.0.bottom/0.23.1440.842@0.23.1440.842" timestamp="1590790032154" />
-    <state width="1253" height="229" key="GridCell.Tab.0.center" timestamp="1590790032153">
+    <state width="1253" height="229" key="GridCell.Tab.0.bottom/0.23.1440.842@0.23.1440.842" timestamp="1590947918298" />
+    <state width="1253" height="229" key="GridCell.Tab.0.center" timestamp="1590947918297">
       <screen x="0" y="23" width="1440" height="842" />
     </state>
-    <state width="1253" height="229" key="GridCell.Tab.0.center/0.23.1440.842@0.23.1440.842" timestamp="1590790032153" />
-    <state width="1253" height="229" key="GridCell.Tab.0.left" timestamp="1590790032153">
+    <state width="1253" height="229" key="GridCell.Tab.0.center/0.23.1440.842@0.23.1440.842" timestamp="1590947918297" />
+    <state width="1253" height="229" key="GridCell.Tab.0.left" timestamp="1590947918294">
       <screen x="0" y="23" width="1440" height="842" />
     </state>
-    <state width="1253" height="229" key="GridCell.Tab.0.left/0.23.1440.842@0.23.1440.842" timestamp="1590790032153" />
-    <state width="1253" height="229" key="GridCell.Tab.0.right" timestamp="1590790032154">
+    <state width="1253" height="229" key="GridCell.Tab.0.left/0.23.1440.842@0.23.1440.842" timestamp="1590947918294" />
+    <state width="1253" height="229" key="GridCell.Tab.0.right" timestamp="1590947918298">
       <screen x="0" y="23" width="1440" height="842" />
     </state>
-    <state width="1253" height="229" key="GridCell.Tab.0.right/0.23.1440.842@0.23.1440.842" timestamp="1590790032154" />
+    <state width="1253" height="229" key="GridCell.Tab.0.right/0.23.1440.842@0.23.1440.842" timestamp="1590947918298" />
     <state width="1253" height="272" key="GridCell.Tab.1.bottom" timestamp="1589990406152">
       <screen x="0" y="23" width="1440" height="842" />
     </state>

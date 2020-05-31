@@ -1,9 +1,14 @@
-
-<center><h1>Academic Count, your home to examine your article</h1></center>
+<!DOCTYPE html>
+<html>
+<head>
+    <title> Academic Count</title>
+</head>
+<body>
+<center><h1>Academic Count, your home to examine articles</h1></center>
 
 <form action="your-analysis" method="post" enctype="multipart/form-data">
     <label for="file">Your file:</label>
-        <input type='file' name= "file" value="" required="">
+        <input type='file' name= "file" value="" required=""> Currently only compatible with .docx files
     <br>
     <label for="stop_word">Word you'd like to stop analyzing at (CASE SENSITIVE):</label>
         <input type='text' name= "stop_word" value="">
@@ -70,3 +75,5 @@
 
 </form>
 
+</body>
+</html>

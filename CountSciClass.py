@@ -100,20 +100,35 @@ class AnalyzeDoc:
     def no_title_page(self):
         title_text = []
         title_total = 0
-        regex_abstract = re.compile(r'(:?Abstract|ABSTRACT)[ :]? ?\n.*.*')
-        abstract = re.search(regex_abstract, self.full_text)
-        if abstract == None:
-            regex_title = re.compile(r'\w+\n\n\n')
-            abstract = re.search(regex_title, self.full_text)
-        try:
+        regex_title = re.compile('Title')
+        nextsection = r'(\n\n|\n\S+\n|\n\w+:|\n\t\w+:)'
+        if re.findall(regex_title,self.full_text[:300]):
+            title = re.search(regex_title,self.full_text[:300])
+            title_end = re.search(nextsection, self.full_text[title.start() + 12:])
+            try:
+                title_text.append(self.full_text[title.start():title_end.end()])
+                for item in title_text:
+                    title_total += len(re.findall(wordcount, item))
+            except:
+                title_text.append("<I>Nothing was found as your Title Page</I>")
+                return title_total, title_text
 
-            title_text.append(self.full_text[:abstract.start()])
-            for item in title_text:
-                title_total+=len(re.findall(wordcount,item))
-            return title_total, title_text
-        except:
-            title_text.append("<I>Nothing was found as your Title Page</I>")
-            return title_total, title_text
+
+        else:
+            regex_abstract = re.compile(r'(:?Abstract|ABSTRACT)[ :]? ?\n.*.*')
+            abstract = re.search(regex_abstract, self.full_text)
+            if abstract == None:
+                regex_title = re.compile(r'\w+\n\n\n')
+                abstract = re.search(regex_title, self.full_text[:300])
+            try:
+
+                title_text.append(self.full_text[:abstract.start()])
+                for item in title_text:
+                    title_total+=len(re.findall(wordcount,item))
+                return title_total, title_text
+            except:
+                title_text.append("<I>Nothing was found as your Title Page</I>")
+                return title_total, title_text
 
     def get_keyword(self):
         keywords_total = 0
@@ -141,7 +156,7 @@ class AnalyzeDoc:
     def get_figures(self):
         figures_total = 0
         figures_text = []
-        regex_figure = r'\n+\t?Figure \d{1,3}\.?.*\n'
+        regex_figure = r'\n+\t?Figure \d{1,3}[\.: ]?.*\n'
         figures = re.findall(regex_figure, self.full_text)
 
         for figure in figures:
@@ -152,7 +167,7 @@ class AnalyzeDoc:
     def get_table_intros(self):
         tables_intro_total = 0
         tables_intro_text = []
-        regex_table = r'\nTable \d\.?.*\n.*'
+        regex_table = r'\nTable \d{1,3}\.?.*\n.*'
         tables = re.findall(regex_table, self.full_text)
         for table in tables:
             tables_intro_total += len(re.findall(wordcount,table))
@@ -201,33 +216,31 @@ class AnalyzeDoc:
                         excised_word.append(f"{strip} FROM: {citation}")
                         citations_total -= len(re.findall(wordcount, strip))
                         citation = citation.replace(multicaps.group(), "")
-                        print(excised_word[-1])
+
                     elif examples:
                         strip = re.sub(r'[\(,:;\)]', "", examples.group())
                         excised_word.append(f"{strip} FROM: {citation}")
 
                         citations_total -= len(re.findall(wordcount, strip))
                         citation = citation.replace(examples.group(), "")
-                        print(excised_word[-1])
+
                     elif doublecap:
                         strip = re.sub(r'[\(,:;\)]', "", doublecap.group())
                         excised_word.append(f"{strip} FROM: {citation}")
-                        print(excised_word[-1])
+
                         citations_total -= len(re.findall(wordcount, strip))
                         citation = citation.replace(doublecap.group(), "")
                     elif sentence and sentence.group() != " et al" and sentence.group() != " de " \
                             and sentence.group() != " van de ":
                         strip = re.sub(r'[\(,:;\)]', "", sentence.group())
                         excised_word.append(f"{strip} FROM: {citation}")
-                        print(excised_word[-1])
+
                         citations_total -= len(re.findall(wordcount, strip))
                         citation = citation.replace(sentence.group(), "")
 
-                    print("Before adding citation:", citations_total)
-                    print(citation)
 
                     citations_total += len(re.findall(wordcount, citation))
-                    print("After adding citation:", citations_total)
+
                     citations_text.append(citation)
                 elif re.search(r'\(\d{4}(?:, \d{4})*\)', citation):
                     citations_total += len(re.findall(wordcount, citation))
@@ -296,7 +309,7 @@ class AnalyzeDoc:
         nextsection = r'\n\n|\Z'
         try:
             post_appendix = re.search(nextsection, self.full_text[appendix_start.end()+(len(appendix_start.group())):])
-            print
+
             appendix_text.append(self.full_text[appendix_start.start():appendix_start.start() + post_appendix.end()+(len(appendix_start.group()))])
             next_search = self.full_text[appendix_start.start() + post_appendix.end()+(len(appendix_start.group())):]
             next_appendix = re.compile(r"\nAppen")
